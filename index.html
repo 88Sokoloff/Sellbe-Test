@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sellbe</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="tab">
+		<button class="tab_item tab_1" onclick="check(0)"></button>
+		<button class="tab_item tab_2" onclick="check(1)"></button>
+		<button class="tab_item tab_3" onclick="check(2)">
+			<svg width="100%" height="100%" viewBox="0 0 10 10" preserveAspectRatio="none">
+				<polygon points="0,6 0,2 2,0 8,0 10,2 10,6" fill="#eee" stroke="#000" stroke-width="0.1" />
+			</svg>
+		</button>
+		<button class="tab_item tab_4" onclick="check(3)">
+			<svg width="100%" height="100%" viewBox="0 0 10 10" preserveAspectRatio="none">
+				<polygon points="0,6 0,2 2,2 2,0 8,0 8,2 10,2 10,6" fill="#eee" stroke="#000" stroke-width="0.1" />
+			</svg>
+		</button>
+	</div>
+	<div class="content">
+		<h1 class="title"></h1>
+		<p class="txt"></p>
+	</div>
+</body>
+</html>
+
+<script>
+	var url	= ["https://raw.githubusercontent.com/sellbe/test-task/master/data/1.json",
+		"https://raw.githubusercontent.com/sellbe/test-task/master/data/2.json", 
+		"https://raw.githubusercontent.com/sellbe/test-task/master/data/3.json", 
+		"https://raw.githubusercontent.com/sellbe/test-task/master/data/4.json"],
+		title = [], 
+		txt = [],
+		tab = document.getElementsByClassName("tab");
+
+	function request(url){
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		        var obj = JSON.parse(this.responseText),
+		        	num = obj.id - 1;
+		        title[num] = obj.title;
+		        txt[num] = obj.content;
+		        txt[num] = hilight(txt[num]);
+		        insert(title[num], txt[num]);
+		    }
+		};
+		xmlhttp.open("GET", url);
+		xmlhttp.send();
+	}
+
+	function check(tab) {
+		if(title[tab]) {
+			document.getElementsByClassName("title")[0].innerHTML = title[tab];
+	    	document.getElementsByClassName("txt")[0].innerHTML = txt[tab];
+		} else {
+			request(url[tab]);
+		}
+	}
+
+	function insert(title, txt) {
+		document.getElementsByClassName("title")[0].innerHTML = title;
+    	document.getElementsByClassName("txt")[0].innerHTML = txt;
+	}
+
+	function hilight(str) {
+		var arr = str.split(/[^A-z]/),
+			top = 1,
+			curr = 0,
+			item;
+
+		for(var i = 0; i < arr.length; i++){
+			for(var j = i; j < arr.length; j++){
+				if(arr[i]) {
+					if(arr[i].toLowerCase() == arr[j].toLowerCase()) curr++;
+					if(top < curr){
+						top = curr;
+						item = arr[i];
+					}
+				}
+			}
+			curr = 0;
+		}
+		return str.replace(new RegExp(item, "ig"), "<span>" + item + "</span>");
+	}
+	
+</script>

@@ -1,0 +1,66 @@
+.tab {
+	position: relative;
+	height: 100px;
+	border-bottom: 1px solid #000;
+	overflow: hidden;
+}
+.tab_item {
+	margin: 0 15px;
+	padding: 0;
+	width: 100px;
+	height: 100px;
+	border: none;
+	background-color: transparent;
+	transform: translateY(50%);
+}
+.tab_item::after {
+	content: '1';
+	position: absolute;
+	top: 20px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 15px;
+	pointer-events: none;
+}
+.tab_1,
+.tab_2 {
+	background-color: #eee;
+	border: 1px solid #000;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+.tab_2 {
+	width: 75px;
+	height: 75px;
+	border-radius: 0;
+	transform: translateY(50%) rotate(45deg);
+}
+.tab_2::after {
+	content: '2';
+	left: -44%;
+	top: 12px;
+	transform: rotate(-45deg);
+}
+.tab_3::after {
+	content: '3';
+}
+.tab_4::after {
+	content: '4';
+}
+.tab_1:hover,
+.tab_2:hover {
+	background-color: #666;
+}
+svg polygon {
+	cursor: pointer;
+	transition: fill 0.3s;
+}
+svg polygon:hover {
+	fill: #666;
+}
+.txt span {
+	background-color: #666;
+	color: #fff;
+}
